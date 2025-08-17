@@ -74,7 +74,7 @@ func Duplicate():
 func _physics_process(delta):
 	var player = get_tree().get_nodes_in_group("players").get(0);
 	if(Shoots):
-		CoolDown -= delta;
+		CoolDown -= delta * randf_range(0.25, 1.5);
 		if(CoolDown <= 0):
 			CoolDown = BulletCooldown
 			var pos = player.position
@@ -84,7 +84,7 @@ func _physics_process(delta):
 		velocity.y += -gravity * delta
 	else:
 		velocity.y += gravity * delta
-	if(Duplicates):
+	if(Duplicates && position.distance_to(player.position) < 1000):
 		DuplicateTimer -= delta
 		if(DuplicateTimer <= 0):
 			DuplicateTimer = DuplicateCooldown
