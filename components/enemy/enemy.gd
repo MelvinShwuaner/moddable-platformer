@@ -94,11 +94,10 @@ func _physics_process(delta):
 	else: direction = -1
 	if not fall_off_edge and (!_left_ray.is_colliding() or !_right_ray.is_colliding()):
 		if(direction == 1 && !_right_ray.is_colliding()):
-			direction = 0
+			direction = -1
 		elif(direction == -1 && !_left_ray.is_colliding()):
-			direction = 0
-	
-	if(abs(velocity.x) < speed):
+			direction = 1
+	if(abs(velocity.x) < speed && velocity.x / direction == abs(velocity.x)):
 		velocity.x += direction * speed * delta
 	else:
 		if(velocity.x > 0):
@@ -106,13 +105,10 @@ func _physics_process(delta):
 		else:
 			velocity.x += speed * delta
 	_sprite.flip_h = velocity.x < 0
-
 	move_and_slide()
 
-	if velocity.x == 0 and is_on_floor():
-		direction *= -1
-
-
+	#if velocity.x == 0 and is_on_floor():
+		#direction *= -1
 func _on_gravity_changed(new_gravity):
 	gravity = new_gravity
 func LoseHealth(Damage):
