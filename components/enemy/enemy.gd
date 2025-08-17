@@ -69,6 +69,7 @@ func Shoot(Pos):
 	bullet.linear_velocity = (Pos - position).normalized() * 2000
 func Duplicate():
 	var Node = self.duplicate()
+	Node.Health = 1;
 	get_parent().add_child(Node)
 func _physics_process(delta):
 	var player = get_tree().get_nodes_in_group("players").get(0);
