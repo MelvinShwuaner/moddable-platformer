@@ -18,10 +18,11 @@ var DuplicateTimer = DuplicateCooldown
 var CoolDown = BulletCooldown
 @export_range(0, 10, 1, "suffix:px/s") var BulletKnockBack: float = 1
 var Bullet = preload("res://EnemyBullet.tscn")
+var Coin = preload("res://components/coin/coin.tscn")
 ## Does the player lose a life when contacting the enemy?
 @export var player_loses_life: bool = true
 ##how much hits required to kill
-@export var Health: int = 5;
+@export var Health: float = 5;
 ## Can the enemy be squashed by the player?
 @export var squashable: bool = true
 
@@ -36,7 +37,12 @@ var direction: int
 @onready var _sprite := %AnimatedSprite2D
 @onready var _left_ray := %LeftRay
 @onready var _right_ray := %RightRay
-
+func Destroy():
+	var coin = Coin.instantiate()
+	get_parent().add_child(coin)
+	coin.position = position
+	coin.position.y -= 50
+	queue_free()
 
 func _set_speed(new_speed):
 	speed = new_speed
@@ -108,16 +114,16 @@ func _physics_process(delta):
 
 func _on_gravity_changed(new_gravity):
 	gravity = new_gravity
-func LoseHealth(Damage = 1):
+func LoseHealth(Damage):
 	Health-=Damage;
-	if(Health == 0):
-		queue_free()
+	if(Health <= 0):
+		Destroy()
 	else :
 		speed += speed * Damage
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("players"):
 		if squashable and body.velocity.y > 0 and body.position.y < position.y:
-			LoseHealth()
+			LoseHealth(1)
 			body.stomp()
 		elif player_loses_life:
 			Global.lives -= 1

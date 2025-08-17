@@ -8,7 +8,6 @@ const SPRITE: Texture2D = preload("res://assets/tiles-a.png")
 ## How many tiles wide is the platform?
 @export_range(1, 20, 1, "suffix:tiles") var width: int = 3:
 	set = _set_width
-
 ## Can you jump through the bottom of the platform?
 @export var one_way: bool = false:
 	set = _set_one_way
@@ -80,8 +79,7 @@ func _ready():
 	fall_timer.one_shot = true
 	fall_timer.timeout.connect(_fall)
 	add_child(fall_timer)
-
-
+	
 func _on_area_2d_body_entered(body):
 	if not body.is_in_group("players"):
 		return

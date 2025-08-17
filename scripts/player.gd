@@ -25,7 +25,8 @@ const _PLAYER_ACTIONS = {
 ## Use this to change the sprite frames of your character.
 @export var sprite_frames: SpriteFrames = _initial_sprite_frames:
 	set = _set_sprite_frames
-
+##can the player Shoot?
+@export var CanShoot: bool = false
 ## How fast does your character move?
 @export_range(0, 1000, 10, "suffix:px/s") var speed: float = 500.0:
 	set = _set_speed
@@ -179,7 +180,7 @@ func _physics_process(delta):
 		coyote_timer = (coyote_time + delta)
 		double_jump_armed = false
 	shoot_buffer_timer -= delta
-	if _player_just_pressed("shoot") && shoot_buffer_timer <= 0:
+	if _player_just_pressed("shoot") && shoot_buffer_timer <= 0 && CanShoot:
 		Shoot(get_global_mouse_position())
 		shoot_buffer_timer = shoot_timer
 	if _player_just_pressed("jump"):
