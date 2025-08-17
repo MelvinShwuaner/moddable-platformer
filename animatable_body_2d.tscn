@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://2melt77hxcrv"]
+
+[ext_resource type="Texture2D" uid="uid://cnsfc4sy12ia" path="res://assets/tiles-a.png" id="1_s2ghs"]
+
+[node name="AnimatableBody2D" type="AnimatableBody2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(6, 6)
+polygon = PackedVector2Array(-50, 10, -50, -10, -10, -10, -10, -50, 10, -50, 10, -10, 50, -10, 50, 10, 10, 10, 10, 50, -10, 50, -10, 10)
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(258, 0)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(129, 0)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+position = Vector2(-248, 0)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+position = Vector2(-124, 0)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D7" type="Sprite2D" parent="."]
+position = Vector2(0, -258)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D6" type="Sprite2D" parent="."]
+position = Vector2(0, -129)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D9" type="Sprite2D" parent="."]
+position = Vector2(0, 248)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D8" type="Sprite2D" parent="."]
+position = Vector2(0, 124)
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_s2ghs")
+region_enabled = true
+region_rect = Rect2(1277.39, 127.787, 131.243, 128.39)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
