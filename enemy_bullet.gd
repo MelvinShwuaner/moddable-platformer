@@ -4,4 +4,5 @@ var Shooter
 func _on_body_entered(body: Node) -> void:
 	queue_free()
 	if(body.is_in_group("players")):
-		body.velocity += (body.position-Shooter.position).normalized() * KnockBack * 100;
+		if(is_instance_valid(Shooter)):
+			body.velocity += (body.position-Shooter.position).normalized() * KnockBack * 100;

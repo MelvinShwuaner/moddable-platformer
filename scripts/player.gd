@@ -9,13 +9,15 @@ const _PLAYER_ACTIONS = {
 		"jump": "player_1_jump",
 		"left": "player_1_left",
 		"right": "player_1_right",
-		"shoot": "Shoot"
+		"shoot": "Shoot",
+		"Down": "player_1_down"
 	},
 	Global.Player.TWO:
 	{
 		"jump": "player_2_jump",
 		"left": "player_2_left",
 		"right": "player_2_right",
+		"Down": "player_2_down"
 	},
 }
 
@@ -185,7 +187,8 @@ func _physics_process(delta):
 		shoot_buffer_timer = shoot_timer
 	if _player_just_pressed("jump"):
 		jump_buffer_timer = (jump_buffer + delta)
-
+	if _player_just_pressed("Down"):
+		velocity.y += gravity
 	if jump_buffer_timer > 0 and (double_jump_armed or coyote_timer > 0):
 		_jump()
 

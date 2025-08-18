@@ -1,22 +1,27 @@
 class_name Enemy
 extends CharacterBody2D
 #can the enemy fire bullets?
+@export var CanDieToSpikes : bool = true
 @export var Shoots : bool = true
 #can the enemy Duplicate?
 @export var Duplicates: bool = true
+@export var NodeToMove: Node
+#the maximum distance the player has to be so that the enemy sees it
+@export var PlayerMaxDistance: float = 2000
 #can the enemy Fly?
 @export var Flies : bool = true
+@export var DropsCoins : bool = true
 ## How fast does your enemy move?
 @export_range(0, 1000, 10, "suffix:px/s") var speed: float = 100.0:
 	set = _set_speed
 #the cooldown for duplication
-@export_range(5, 20, 1, "suffix:px/s") var DuplicateCooldown: float = 5.0
+@export_range(2, 20, 1, "suffix:px/s") var DuplicateCooldown: float = 5.0
 var DuplicateTimer = DuplicateCooldown
 ## Does the enemy fall off edges?
 @export var fall_off_edge: bool = true
 @export_range(0, 10, 1, "suffix:px/s") var BulletCooldown: float = 1
 var CoolDown = BulletCooldown
-@export_range(0, 10, 1, "suffix:px/s") var BulletKnockBack: float = 1
+@export_range(0, 30, 1, "suffix:px/s") var BulletKnockBack: float = 1
 var Bullet = preload("res://EnemyBullet.tscn")
 var Coin = preload("res://components/coin/coin.tscn")
 ## Does the player lose a life when contacting the enemy?
@@ -38,10 +43,13 @@ var direction: int
 @onready var _left_ray := %LeftRay
 @onready var _right_ray := %RightRay
 func Destroy():
-	var coin = Coin.instantiate()
-	get_parent().add_child(coin)
-	coin.position = position
-	coin.position.y -= 50
+	if(DropsCoins):
+		var coin = Coin.instantiate()
+		get_parent().add_child(coin)
+		coin.position = position
+		coin.position.y -= 50
+		if(is_instance_valid(NodeToMove)):
+			NodeToMove.Move()
 	queue_free()
 
 func _set_speed(new_speed):
@@ -70,28 +78,34 @@ func Shoot(Pos):
 func Duplicate():
 	var Node = self.duplicate()
 	Node.Health = 1;
+	Node.speed /= 2
+	Node.CanDieToSpikes = true
+	Node.DropsCoins = false
+	Node.velocity.y += -gravity
 	get_parent().add_child(Node)
 func _physics_process(delta):
 	var player = get_tree().get_nodes_in_group("players").get(0);
-	if(Shoots):
-		CoolDown -= delta * randf_range(0.25, 1.5);
-		if(CoolDown <= 0):
-			CoolDown = BulletCooldown
-			var pos = player.position
-			pos.y -= 50
-			Shoot(pos)
-	if(Flies && player.position.y < position.y):
-		velocity.y += -gravity * delta
-	else:
-		velocity.y += gravity * delta
-	if(Duplicates && position.distance_to(player.position) < 1000):
-		DuplicateTimer -= delta
-		if(DuplicateTimer <= 0):
-			DuplicateTimer = DuplicateCooldown
-			Duplicate()
-	if(player.position.	x > position.x):
-			direction = 1
-	else: direction = -1
+	var PLayerNearby = position.distance_to(player.position) < PlayerMaxDistance
+	if(PLayerNearby):
+		if(Shoots):
+			CoolDown -= delta * randf_range(0.25, 1.5);
+			if(CoolDown <= 0):
+				CoolDown = BulletCooldown
+				var pos = player.position
+				pos.y -= 50
+				Shoot(pos)
+		if(Flies && player.position.y < position.y):
+			velocity.y += -gravity * delta
+		else:
+			velocity.y += gravity * delta
+		if(Duplicates):
+			DuplicateTimer -= delta
+			if(DuplicateTimer <= 0):
+				DuplicateTimer = DuplicateCooldown
+				Duplicate()
+		if(player.position.	x > position.x):
+				direction = 1
+		else: direction = -1
 	if not fall_off_edge and (!_left_ray.is_colliding() or !_right_ray.is_colliding()):
 		if(direction == 1 && !_right_ray.is_colliding()):
 			direction = -1

@@ -52,7 +52,7 @@ size = Vector2(82, 83)
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 8
-collision_mask = 4
+collision_mask = 36
 floor_constant_speed = true
 floor_snap_length = 32.0
 script = ExtResource("1_urf0o")
@@ -69,12 +69,12 @@ autoplay = "walk"
 [node name="LeftRay" type="RayCast2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(-37, -3)
-collision_mask = 5
+collision_mask = 37
 
 [node name="RightRay" type="RayCast2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(37, -3)
-collision_mask = 5
+collision_mask = 37
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -39)
