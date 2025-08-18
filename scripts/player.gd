@@ -17,7 +17,8 @@ const _PLAYER_ACTIONS = {
 		"jump": "player_2_jump",
 		"left": "player_2_left",
 		"right": "player_2_right",
-		"Down": "player_2_down"
+		"Down": "player_2_down",
+		"shoot": "Shoot",
 	},
 }
 

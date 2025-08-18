@@ -83,8 +83,15 @@ func Duplicate():
 	Node.DropsCoins = false
 	Node.velocity.y += -gravity
 	get_parent().add_child(Node)
+func GetPlayer() -> Node:
+	var Nodes = get_tree().get_nodes_in_group("players")
+	if(Nodes.size() == 1):
+		return Nodes[0]
+	if(position.distance_to(Nodes[0].position) < position.distance_to(Nodes[1].position)):
+		return Nodes[0]
+	return Nodes[1]
 func _physics_process(delta):
-	var player = get_tree().get_nodes_in_group("players").get(0);
+	var player = GetPlayer()
 	var PLayerNearby = position.distance_to(player.position) < PlayerMaxDistance
 	if(PLayerNearby):
 		if(Shoots):

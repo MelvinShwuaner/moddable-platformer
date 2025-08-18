@@ -9,7 +9,8 @@ func Upgrade(body : Node2D):
 		return
 	body.shoot_timer /= 2
 func _on_body_entered(body: Node2D) -> void:
-	Upgrade(body)
-	body.original_position = position
+	for node in get_tree().get_nodes_in_group("players"):
+		Upgrade(node)
+		node.original_position = position
 	Global.lives +=3
 	queue_free()
